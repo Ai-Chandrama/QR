@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR-Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .main-box {
+            width: 300px;
+            height: auto;
+            padding: 40px 20px;
+            border: 2px solid gray;
+            border-radius: 15px;
+            transition: all 0.2s ease;
+        }
+        h1 {
+            text-align: center;
+        }
+        .QR-Text {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .QR-Text input {
+            padding: 10px 5px;
+            border: 1px solid lightblue;
+            border-radius: 5px;
+        }
+        .QRbtn {
+            font-size: 18px;
+            padding: 10px 5px;
+            border: 1px solid lightblue;
+            background-color: rgba(0, 124, 0, 0.75);
+            color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .QRbtn:hover {
+            background-color: rgba(0, 124, 0, 1);
+            color: rgba(255, 255, 255, 1);
+        }
+        .QR-box {
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 250px;
+            opacity: 0;
+            transition: opacity 0.5s ease; /* Smooth fade-in */
+        }
+        .QR-box img {
+            padding: 10px 0;
+            width: 75%;
+            height: 75%;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-box">
+        <h1>QR-Generator</h1>
+        <div class="QR-Text">
+            <input type="text" class="input-text" placeholder="Enter a URL or text">
+            <button class="QRbtn">Generate QR</button>
+        </div>
+        <div class="QR-box">
+            <img src="" alt="QR-Code">
+        </div>
+    </div>
+
+    <script>
+        const generateBtn = document.querySelector(".QRbtn");
+        const textValue = document.querySelector("input");
+        const qrBox = document.querySelector(".QR-box");
+        const qrCode = document.querySelector(".QR-box img");
+
+        generateBtn.addEventListener("click", () => {
+            if (textValue.value.trim().length === 0) {
+                alert("Please enter a URL or text");
+                return;
+            }
+
+            generateBtn.innerHTML = "Generating QR...";
+            setTimeout(() => {
+                qrCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(textValue.value)}`;
+                setTimeout(()=>{
+                    qrBox.style.display = "flex"; // Show the QR box
+                    qrBox.style.opacity = "1"; // Fade-in effect
+                    generateBtn.innerHTML = "Generate QR";
+                }, 1000)
+              
+                
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
